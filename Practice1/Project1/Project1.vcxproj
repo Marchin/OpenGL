@@ -21,6 +21,14 @@
   <ItemGroup>
     <ClCompile Include="Libraries\glad.c" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\Shader1\fShader.gsls" />
+    <None Include="Source\Shaders\Shader1\vShader.gsls" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\Shader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -74,7 +82,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\General Programing\OpenGL\Libraries\Includes;$(IncludePath)</IncludePath>
+    <IncludePath>D:\General Programing\OpenGL\Practice1\Project1\Headers;D:\General Programing\OpenGL\Libraries\Includes;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
