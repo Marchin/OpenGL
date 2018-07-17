@@ -76,10 +76,7 @@ int main() {
 			3, 2, 0
 		};
 
-		unsigned int elementBufferObject;
-		glGenBuffers(1, &elementBufferObject);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		ElementBuffer eb(indices,6);
 
 		//shader.Bind();
 		//shader.SetInt("texture1", 0);
