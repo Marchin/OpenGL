@@ -13,6 +13,7 @@
 #include "../Headers/VertexBuffer.h"
 #include "../Headers/VertexArray.h"
 #include "../Headers/VertexBufferLayout.h"
+#include "../Headers/Model.h"
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
@@ -28,6 +29,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 int main() {
+	using namespace marchinGL;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -53,20 +55,24 @@ int main() {
 
 		Renderer renderer;
 
-		float vertices[] = {
+		/*float vertices[] = {
 			-0.5f, -0.5f,
 			-0.5f,  0.5f,
 			0.5f, -0.5f,
 			0.5f,  0.5f
-		};
+		};*/
 		/*TextureController  textureController;
 		Texture texture1("Resources/container.jpg", GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE,
-			GL_NEAREST, GL_NEAREST);*/
+			GL_NEAREST, GL_NEAREST);
 
 		Shader shader("Resources/Shaders/Shader1/vShader.glsl",
-			"Resources/Shaders/Shader1/fShader.glsl");
+			"Resources/Shaders/Shader1/fShader.glsl");*/
+		Shader sTexture("Resources/Shaders/ShaderTexture/vTexture.glsl",
+			"Resources/Shaders/ShaderTexture/fTexture.glsl");
+		model::Model soldier("Resources/nanosuit/nanosuit.obj");
+		
 
-		VertexArray va;
+		/*VertexArray va;
 		VertexBuffer vb(vertices, sizeof(vertices));
 		VertexBufferLayout layout;
 		layout.Push<float>(2);
@@ -79,33 +85,35 @@ int main() {
 
 		ElementBuffer eb(indices,6);
 
-		//shader.Bind();
-		//shader.SetInt("texture1", 0);
+		sTexture.Bind();
+		sTexture.SetInt("texture_diffuse1", 0);*/
 
 		while (!glfwWindowShouldClose(window)) {
 			processInput(window);
 
-			/*float currentFrame = (float)glfwGetTime();
+			float currentFrame = (float)glfwGetTime();
 			deltaTime = currentFrame - lastFrame;
 			lastFrame = currentFrame;
 
-			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
-				(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-			shader.SetMat4("projection", projection);
-
-			glm::mat4 view = camera.GetViewMatrix();
-			shader.SetMat4("view", view);*/
-
 			renderer.Clear();
 
-			shader.Bind();
+			sTexture.Bind();
+
+			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
+				(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+			sTexture.SetMat4("projection", projection);
+
+			glm::mat4 view = camera.GetViewMatrix();
+			sTexture.SetMat4("view", view);
+
 			//textureController.AddTexture(texture1);
-			va.Bind();
-			/*glm::mat4 model(1.f);
-			float angle = 20.f;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, .3f, .5f));
-			shader.SetMat4("model", model);*/
-			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
+			//va.Bind();
+			glm::mat4 model(1.f);  
+			model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+			sTexture.SetMat4("model", model);
+			soldier.Draw(sTexture);
+			//GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
 
 			//textureController.Reset();
 			glfwSwapBuffers(window);

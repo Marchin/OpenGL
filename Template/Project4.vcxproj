@@ -136,6 +136,8 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\ElementBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
@@ -146,6 +148,8 @@
   <ItemGroup>
     <ClInclude Include="Headers\Camera.h" />
     <ClInclude Include="Headers\ElementBuffer.h" />
+    <ClInclude Include="Headers\Mesh.h" />
+    <ClInclude Include="Headers\Model.h" />
     <ClInclude Include="Headers\Renderer.h" />
     <ClInclude Include="Headers\Shader.h" />
     <ClInclude Include="Headers\stb_image.h" />
