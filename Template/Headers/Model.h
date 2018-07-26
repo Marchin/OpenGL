@@ -17,12 +17,12 @@ namespace model {
 		void ProcessNode(aiNode* node, const aiScene* scene);
 		Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene);
 		Vertex SetupVertex(aiMesh * mesh, unsigned int i);
-		std::vector<Texture> LoadMaterialsTextures(aiMaterial* material,
+		std::vector<TextureInfo> LoadMaterialsTextures(aiMaterial* material,
 			aiTextureType type,
 			std::string typeName);
-		unsigned int TextureFromFile(const char * str, std::string directory);
+		marchinGL::Texture* TextureFromFile(const char* str, std::string directory);
 		std::vector<Mesh*> m_meshes;
-		std::vector<Texture> m_loadedTextures;
+		std::vector<TextureInfo> m_loadedTextures;
 		std::string m_directory;
 	};
 }

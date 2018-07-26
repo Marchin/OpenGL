@@ -6,6 +6,7 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
+#include "Texture.h"
 
 
 namespace model {
@@ -15,20 +16,20 @@ namespace model {
 		glm::vec2 texCoords;
 	};
 
-	struct Texture {
-		unsigned int id;
+	struct TextureInfo {
+		marchinGL::Texture* texture;
 		std::string type;
 		std::string path;
 	};
 
 	class Mesh {
 	public:
-		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<TextureInfo> textures);
+		~Mesh();
 		void Draw(Shader& shader);
-		void setupMesh();
 		std::vector<Vertex> m_vertices;
 		std::vector<unsigned int> m_indices;
-		std::vector<Texture> m_textures;
+		std::vector<TextureInfo> m_texturesInfo;
 		unsigned int VAO;
 	private:
 		unsigned int VBO, EBO;

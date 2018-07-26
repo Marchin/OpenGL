@@ -44,7 +44,7 @@ namespace model {
 	Mesh* Model::ProcessMesh(aiMesh * mesh, const aiScene * scene) {
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-		std::vector<Texture> textures;
+		std::vector<TextureInfo> textures;
 
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 			vertices.push_back(SetupVertex(mesh, i));
@@ -57,10 +57,10 @@ namespace model {
 		}
 		if (mesh->mMaterialIndex >= 0) {
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-			std::vector<Texture> diffuseMaps
+			std::vector<TextureInfo> diffuseMaps
 				= LoadMaterialsTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-			std::vector<Texture> specularMaps =
+			std::vector<TextureInfo> specularMaps =
 				LoadMaterialsTextures(material, aiTextureType_SPECULAR, "texture_specular");
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 		}
@@ -92,8 +92,8 @@ namespace model {
 		return vertex;
 	}
 
-	std::vector<Texture> Model::LoadMaterialsTextures(aiMaterial * material, aiTextureType type, std::string typeName) {
-		std::vector<Texture> textures;
+	std::vector<TextureInfo> Model::LoadMaterialsTextures(aiMaterial * material, aiTextureType type, std::string typeName) {
+		std::vector<TextureInfo> textures;
 		for (unsigned int i = 0; i < material->GetTextureCount(type); i++) {
 			bool skip = false;
 			aiString str;
@@ -106,24 +106,24 @@ namespace model {
 				}
 			}
 			if (!skip) {
-				Texture texture;
-				texture.id = TextureFromFile(str.C_Str(), m_directory);
-				texture.type = typeName;
-				texture.path = str.C_Str();
-				textures.push_back(texture);
+				TextureInfo textureInfo;
+				textureInfo.texture = TextureFromFile(str.C_Str(), m_directory);
+				textureInfo.type = typeName;
+				textureInfo.path = str.C_Str();
+				textures.push_back(textureInfo);
 			}
 		}
 		return textures;
 	}
 
-	unsigned int Model::TextureFromFile(const char* str, std::string directory) {
+	marchinGL::Texture* Model::TextureFromFile(const char* str, std::string directory) {
 		std::string texturePath = std::string(str);
 		texturePath = directory + '/' + texturePath;
-		marchinGL::Texture texture(texturePath.c_str(), GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+		marchinGL::Texture* texture = new marchinGL::Texture(texturePath.c_str(), GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
 		
-		GLCall(glBindTexture(GL_TEXTURE_2D, texture.GetID()));
+		GLCall(glBindTexture(GL_TEXTURE_2D, texture->GetID()));
 
-		return texture.GetID();
+		return texture;
 	}
 
 }

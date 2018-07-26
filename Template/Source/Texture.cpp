@@ -36,7 +36,7 @@ namespace marchinGL {
 	}
 
 	Texture::~Texture() {
-		//GLCall(glDeleteTextures(1, &m_texture));
+		GLCall(glDeleteTextures(1, &m_texture));
 	}
 
 	void Texture::Bind(unsigned int slot) const {

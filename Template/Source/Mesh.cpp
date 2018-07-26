@@ -3,8 +3,8 @@
 #include "../Headers/Renderer.h"
 
 namespace model {
-	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures) 
-		: m_vertices(vertices), m_indices(indices), m_textures(textures),
+	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<TextureInfo> textures) 
+		: m_vertices(vertices), m_indices(indices), m_texturesInfo(textures),
 		m_eb(ElementBuffer(&indices[0], indices.size()) ){
 
 		VertexBufferLayout layout;
@@ -18,13 +18,19 @@ namespace model {
 		m_va.Unbind();
 	}
 
+	Mesh::~Mesh() {
+		for (unsigned int i = 0; i < m_texturesInfo.size(); i++) {
+			delete m_texturesInfo[i].texture;
+		}
+	}
+
 	void Mesh::Draw(Shader& shader) {
 		unsigned int diffueseNr = 1;
 		unsigned int specularNr = 1;
-		for (unsigned int i = 0; i < m_textures.size(); i++) {
+		for (unsigned int i = 0; i < m_texturesInfo.size(); i++) {
 			GLCall(glActiveTexture(GL_TEXTURE0 + i));
 			std::string number;
-			std::string name = m_textures[i].type;
+			std::string name = m_texturesInfo[i].type;
 			if (name == "texture_diffuse") {
 				number = std::to_string(diffueseNr++);
 			} else if (name == "texture_specular") {
@@ -32,7 +38,7 @@ namespace model {
 			}
 			shader.Bind();
 			shader.SetInt((name + number).c_str(), i);
-			GLCall(glBindTexture(GL_TEXTURE_2D, m_textures[i].id));
+			GLCall(glBindTexture(GL_TEXTURE_2D, m_texturesInfo[i].texture->GetID()));
 		}
 		m_va.Bind();
 		GLCall(glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0));
