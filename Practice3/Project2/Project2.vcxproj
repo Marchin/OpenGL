@@ -23,7 +23,9 @@
     <ClCompile Include="Libraries\stb_image.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\ElementBuffer.cpp" />
+    <ClCompile Include="Source\Framebuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Renderbuffer.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
@@ -34,6 +36,8 @@
   <ItemGroup>
     <ClInclude Include="Headers\Camera.h" />
     <ClInclude Include="Headers\ElementBuffer.h" />
+    <ClInclude Include="Headers\Framebuffer.h" />
+    <ClInclude Include="Headers\Renderbuffer.h" />
     <ClInclude Include="Headers\Renderer.h" />
     <ClInclude Include="Headers\Shader.h" />
     <ClInclude Include="Headers\stb_image.h" />
