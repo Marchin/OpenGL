@@ -12,11 +12,11 @@ Renderbuffer::~Renderbuffer() {
 	GLCall(glDeleteRenderbuffers(1, &m_rb));
 }
 
-void Renderbuffer::Bind() {
+void Renderbuffer::Bind() const {
 	GLCall(glBindRenderbuffer(GL_RENDERBUFFER, m_rb));
 }
 
-void Renderbuffer::Unbind() {
+void Renderbuffer::Unbind() const {
 	GLCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
 

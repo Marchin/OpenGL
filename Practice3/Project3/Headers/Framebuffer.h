@@ -7,8 +7,8 @@ class Framebuffer {
 public:
 	Framebuffer();
 	~Framebuffer();
-	void Bind();
-	void Unbind();
+	void Bind() const;
+	void Unbind() const;
 	void CheckStatus() const;
 	void AttachTexture(unsigned int texture);
 	void AttachRenderbuffer(unsigned int rb, GLenum type);

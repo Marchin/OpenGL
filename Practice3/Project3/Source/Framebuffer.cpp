@@ -9,11 +9,11 @@ Framebuffer::~Framebuffer() {
 	GLCall(glDeleteFramebuffers(1, &m_fb));
 }
 
-void Framebuffer::Bind() {
+void Framebuffer::Bind() const {
 	GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_fb));
 }
 
-void Framebuffer::Unbind() {
+void Framebuffer::Unbind() const {
 	GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 

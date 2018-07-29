@@ -96,7 +96,14 @@ int main() {
 			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
 			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
 			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right      
+			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right   
+			//Top face
+			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 		};
 		float planeVertices[] = {
 			// positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
@@ -114,7 +121,7 @@ int main() {
 			-1.0f, -1.0f,  0.0f, 0.0f,
 			1.0f, -1.0f,  1.0f, 0.0f,
 
-			-0.75f,  1.0f,  0.0f, 1.0f,
+			-1.0f,  1.0f,  0.0f, 1.0f,
 			1.0f, -1.0f,  1.0f, 0.0f,
 			1.0f,  1.0f,  1.0f, 1.0f
 		};
@@ -129,7 +136,7 @@ int main() {
 		Shader shader("Resources/Shaders/ShaderTexture/vTexture.glsl",
 			"Resources/Shaders/ShaderTexture/fTexture.glsl");
 		Shader framebufferShader("Resources/Shaders/Framebuffer/vFramebuffer.glsl",
-			"Resources/Shaders/Framebuffer/fFramebuffer.glsl");
+			"Resources/Shaders/Framebuffer/fMatrixSharp.glsl");
 
 		VertexArray cubeVA;
 		VertexBuffer cubeVB(cubeVertices, sizeof(cubeVertices));
@@ -168,7 +175,7 @@ int main() {
 	
 		shader.Bind();
 		shader.SetInt("texture1", 0);
-		GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
+		//GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
 
 		while (!glfwWindowShouldClose(window)) {
 			processInput(window);
