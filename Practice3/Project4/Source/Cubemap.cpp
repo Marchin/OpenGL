@@ -31,7 +31,8 @@ Cubemap::Cubemap(std::vector<std::string> fileNames) {
 Cubemap::~Cubemap() {
 }
 
-void Cubemap::Bind() const {
+void Cubemap::Bind(unsigned int slot) const {
+	GLCall(glActiveTexture(GL_TEXTURE0 + slot));
 	GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubemap));
 }
 

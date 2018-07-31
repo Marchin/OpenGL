@@ -2,6 +2,7 @@
 #define TEXTURECONTOLLER_H
 
 #include "Texture.h"
+#include "Cubemap.h"
 
 namespace marchinGL {
 	class TextureController {
@@ -9,6 +10,7 @@ namespace marchinGL {
 		TextureController();
 		~TextureController();
 		void AddTexture(const Texture& texture);
+		void AddTexture(const Cubemap& texture);
 		void Reset();
 
 	private:

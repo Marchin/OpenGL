@@ -19,6 +19,9 @@ namespace marchinGL {
 		}
 	}
 
+	void TextureController::AddTexture(const Cubemap & texture) {
+	}
+
 	void TextureController::Reset() {
 		m_count = 0;
 	}

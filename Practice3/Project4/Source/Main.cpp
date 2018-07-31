@@ -16,6 +16,7 @@
 #include "../Headers/Framebuffer.h"
 #include "../Headers/Renderbuffer.h"
 #include "../Headers/Cubemap.h"
+#include "../Headers/Model.h"
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
@@ -63,48 +64,47 @@ int main() {
 
 
 		float cubeVertices[] = {
-			// Back face
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom-left
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
-			0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // bottom-right         
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // bottom-left
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
-			// Front face
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
-			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, // top-left
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
-			// Left face
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
-			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-left
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
-			// Right face
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right         
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
-			0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left     
-			// Bottom face
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
-			0.5f, -0.5f, -0.5f,  1.0f, 1.0f, // top-left
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right   
-			//Top face
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+			0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+			0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+			0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+			0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+			0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+			0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+			0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 		};
 		float planeVertices[] = {
 			// positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
@@ -187,19 +187,21 @@ int main() {
 		};
 		Cubemap skybox(cubemapFiles);
 
-		Shader shader("Resources/Shaders/ShaderTexture/vTexture.glsl",
-			"Resources/Shaders/ShaderTexture/fTexture.glsl");
+		Shader shader("Resources/Shaders/ReflectionCubemap/vReflectionModel.glsl",
+			"Resources/Shaders/ReflectionCubemap/fReflectionModel.glsl");
 		Shader framebufferShader("Resources/Shaders/Framebuffer/vFramebuffer.glsl",
 			"Resources/Shaders/Framebuffer/fMatrixSharp.glsl");
 		Shader cubemapShader("Resources/Shaders/Cubemap/vCubemap.glsl",
 			"Resources/Shaders/Cubemap/fCubemap.glsl");
+
+		model::Model soldier("Resources/nanosuit_reflection/nanosuit.obj");
 
 		VertexArray cubeVA;
 		VertexBuffer cubeVB(cubeVertices, sizeof(cubeVertices));
 		VertexBufferLayout cubeLayout;
 		cubeVA.Bind();
 		cubeLayout.Push<float>(3);
-		cubeLayout.Push<float>(2);
+		cubeLayout.Push<float>(3);
 		cubeVA.AddBuffer(cubeVB, cubeLayout);
 		cubeVA.Unbind();
 
@@ -238,7 +240,7 @@ int main() {
 		fb.CheckStatus();
 	
 		shader.Bind();
-		shader.SetInt("texture1", 0);
+		shader.SetInt("cubemap", 4);
 		//GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
 		cubemapShader.Bind();
 		cubemapShader.SetInt("cubemap", 0);
@@ -262,31 +264,36 @@ int main() {
 			glm::mat4 view = camera.GetViewMatrix();
 			shader.SetMat4("view", view);
 			glm::mat4 model(1.f);
+			shader.SetVec3("cameraPos", camera.Position);
 
 			// floor
-			textureController.Reset();
+			/*textureController.Reset();
 			planeVA.Bind();
 			shader.Bind();
 			textureController.AddTexture(planeTexture);
 			shader.SetMat4("model", glm::mat4(1.f));
 			GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 			planeVA.Unbind();
-
-			textureController.Reset();
+			textureController.Reset();*/
+			//cube
 			textureController.AddTexture(cubeTexture);
-
 			cubeVA.Bind();
 			shader.Bind();
 			textureController.AddTexture(cubeTexture);
+			GLCall(glActiveTexture(GL_TEXTURE0 + 4));
+			skybox.Bind(4);
 			model = glm::mat4(1.f);
 			model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
 			shader.SetMat4("model", model);
-			GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+			//GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 			model = glm::mat4(1.f);
+			model = glm::scale(model, glm::vec3(.1f));
 			model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
 			shader.SetMat4("model", model);
-			GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+			//GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 			cubeVA.Unbind();
+			soldier.Draw(shader);
+			textureController.Reset();
 
 			//skybox
 			GLCall(glDepthMask(GL_FALSE));
@@ -295,7 +302,7 @@ int main() {
 			cubemapShader.SetMat4("projection", projection);
 			cubemapShader.SetMat4("view", view);
 			skyboxVA.Bind();
-			skybox.Bind();
+			skybox.Bind(0);
 			GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 			GLCall(glDepthMask(GL_TRUE));
 #pragma endregion

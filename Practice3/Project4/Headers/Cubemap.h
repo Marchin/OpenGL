@@ -3,11 +3,11 @@
 
 #include <vector>
 
-class Cubemap {
+class Cubemap : public ITexture {
 public:
 	Cubemap(std::vector<std::string> fileNames);
 	~Cubemap();
-	void Bind() const;
+	void Bind(unsigned int slot) const;
 	void Unbind() const;
 	unsigned int GetID() const;
 private:
