@@ -1,5 +1,4 @@
 #include "../Headers/Model.h"
-#include "../Headers/Texture.h"
 #include "../Headers/Renderer.h"
 #include "../Headers/stb_image.h"
 
@@ -14,10 +13,17 @@ namespace model {
 		}
 	}
 
-	void Model::Draw(Shader& shader) {
+	void Model::Draw(Shader& shader, marchinGL::TextureController& textureController) const {
+		unsigned int initSlot, maxSlot;
+		maxSlot = initSlot = textureController.GetCount();
 		for (unsigned int i = 0; i < m_meshes.size(); i++) {
-			m_meshes[i]->Draw(shader);
+			textureController.SetSlot(initSlot);
+			m_meshes[i]->Draw(shader, textureController);
+			if (maxSlot < textureController.GetCount()) {
+				maxSlot = textureController.GetCount();
+			}
 		}
+		textureController.SetSlot(maxSlot);
 	}
 
 	void Model::LoadModel(std::string path) {
@@ -60,9 +66,15 @@ namespace model {
 			std::vector<TextureInfo> diffuseMaps
 				= LoadMaterialsTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-			std::vector<TextureInfo> specularMaps =
-				LoadMaterialsTextures(material, aiTextureType_SPECULAR, "texture_specular");
+			std::vector<TextureInfo> specularMaps 
+				=	LoadMaterialsTextures(material, aiTextureType_SPECULAR, "texture_specular");
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+			std::vector<TextureInfo> normalMaps
+				= LoadMaterialsTextures(material, aiTextureType_NORMALS, "texture_normal");
+			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+			std::vector<TextureInfo> reflectionMaps
+				= LoadMaterialsTextures(material, aiTextureType_AMBIENT, "texture_reflection");
+			textures.insert(textures.end(), reflectionMaps.begin(), reflectionMaps.end());
 		}
 		return (new Mesh(vertices, indices, textures));
 	}

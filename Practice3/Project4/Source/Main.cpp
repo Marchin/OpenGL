@@ -172,11 +172,6 @@ int main() {
 		};
 
 		TextureController  textureController;
-		Texture cubeTexture("Resources/container.jpg", GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE,
-			GL_NEAREST, GL_NEAREST);
-		Texture planeTexture("Resources/metal.png", GL_REPEAT, GL_REPEAT,
-			GL_NEAREST, GL_NEAREST);
-		Texture fbTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
 		std::vector<std::string> cubemapFiles = {
 			"Resources/skybox/right.jpg",
 			"Resources/skybox/left.jpg",
@@ -185,44 +180,14 @@ int main() {
 			"Resources/skybox/front.jpg",
 			"Resources/skybox/back.jpg",
 		};
-		Cubemap skybox(cubemapFiles);
+		Cubemap* skybox = new Cubemap(cubemapFiles);
 
 		Shader shader("Resources/Shaders/ReflectionCubemap/vReflectionModel.glsl",
 			"Resources/Shaders/ReflectionCubemap/fReflectionModel.glsl");
-		Shader framebufferShader("Resources/Shaders/Framebuffer/vFramebuffer.glsl",
-			"Resources/Shaders/Framebuffer/fMatrixSharp.glsl");
 		Shader cubemapShader("Resources/Shaders/Cubemap/vCubemap.glsl",
 			"Resources/Shaders/Cubemap/fCubemap.glsl");
 
 		model::Model soldier("Resources/nanosuit_reflection/nanosuit.obj");
-
-		VertexArray cubeVA;
-		VertexBuffer cubeVB(cubeVertices, sizeof(cubeVertices));
-		VertexBufferLayout cubeLayout;
-		cubeVA.Bind();
-		cubeLayout.Push<float>(3);
-		cubeLayout.Push<float>(3);
-		cubeVA.AddBuffer(cubeVB, cubeLayout);
-		cubeVA.Unbind();
-
-		VertexArray planeVA;
-		VertexBuffer planeVB(planeVertices, sizeof(planeVertices));
-		VertexBufferLayout planeLayout;
-		planeVA.Bind();
-		planeLayout.Push<float>(3);
-		planeLayout.Push<float>(2);
-		planeVA.AddBuffer(planeVB, planeLayout);
-		planeVA.Unbind();
-
-		VertexArray quadVA;
-		quadVA.Bind();
-		VertexBuffer quadVB(quadVertices, sizeof(quadVertices));
-		VertexBufferLayout quadLayout;
-		quadVA.Bind();
-		quadLayout.Push<float>(2);
-		quadLayout.Push<float>(2);
-		quadVA.AddBuffer(quadVB, quadLayout);
-		quadVA.Unbind();
 
 		VertexArray skyboxVA;
 		VertexBuffer skyboxVB(skyboxVertices, sizeof(skyboxVertices));
@@ -231,19 +196,10 @@ int main() {
 		skyboxLayout.Push<float>(3);
 		skyboxVA.AddBuffer(skyboxVB, skyboxLayout);
 		skyboxVA.Unbind();
-
-		Framebuffer fb;
-		fb.Bind();
-		fb.AttachTexture(fbTexture.GetID());
-		Renderbuffer rb = Renderbuffer(GL_DEPTH24_STENCIL8, SCREEN_WIDTH, SCREEN_HEIGHT);
-		fb.AttachRenderbuffer(rb.GetID(), GL_DEPTH_STENCIL_ATTACHMENT);
-		fb.CheckStatus();
 	
-		shader.Bind();
-		shader.SetInt("cubemap", 4);
+		//shader.Bind();
+		//shader.SetInt("cubemap", 3);
 		//GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
-		cubemapShader.Bind();
-		cubemapShader.SetInt("cubemap", 0);
 
 		GLCall(glDepthFunc(GL_LEQUAL));
 
@@ -265,35 +221,17 @@ int main() {
 			shader.SetMat4("view", view);
 			glm::mat4 model(1.f);
 			shader.SetVec3("cameraPos", camera.Position);
-
-			// floor
-			/*textureController.Reset();
-			planeVA.Bind();
-			shader.Bind();
-			textureController.AddTexture(planeTexture);
-			shader.SetMat4("model", glm::mat4(1.f));
-			GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
-			planeVA.Unbind();
-			textureController.Reset();*/
-			//cube
-			textureController.AddTexture(cubeTexture);
-			cubeVA.Bind();
-			shader.Bind();
-			textureController.AddTexture(cubeTexture);
-			GLCall(glActiveTexture(GL_TEXTURE0 + 4));
-			skybox.Bind(4);
-			model = glm::mat4(1.f);
-			model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
-			shader.SetMat4("model", model);
-			//GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 			model = glm::mat4(1.f);
 			model = glm::scale(model, glm::vec3(.1f));
 			model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
 			shader.SetMat4("model", model);
-			//GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
-			cubeVA.Unbind();
-			soldier.Draw(shader);
-			textureController.Reset();
+			textureController.AddTexture(skybox, shader, "cubemap");
+			soldier.Draw(shader, textureController);
+			model = glm::mat4(1.f);
+			model = glm::scale(model, glm::vec3(.1f));
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 4.0f));
+			shader.SetMat4("model", model);
+			soldier.Draw(shader, textureController);
 
 			//skybox
 			GLCall(glDepthMask(GL_FALSE));
@@ -302,7 +240,7 @@ int main() {
 			cubemapShader.SetMat4("projection", projection);
 			cubemapShader.SetMat4("view", view);
 			skyboxVA.Bind();
-			skybox.Bind(0);
+			textureController.AddTexture(skybox, cubemapShader, "cubemap");
 			GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 			GLCall(glDepthMask(GL_TRUE));
 #pragma endregion
@@ -311,6 +249,7 @@ int main() {
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
+		delete skybox;
 	}
 	glfwTerminate();
 	return 0;

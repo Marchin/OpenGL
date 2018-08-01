@@ -1,5 +1,4 @@
 #include "../Headers/Model.h"
-#include "../Headers/TextureController.h"
 #include "../Headers/Renderer.h"
 #include "../Headers/stb_image.h"
 
@@ -14,10 +13,17 @@ namespace model {
 		}
 	}
 
-	void Model::Draw(Shader& shader) {
+	void Model::Draw(Shader& shader, marchinGL::TextureController& textureController) const {
+		unsigned int initSlot, maxSlot;
+		maxSlot = initSlot = textureController.GetCount();
 		for (unsigned int i = 0; i < m_meshes.size(); i++) {
-			m_meshes[i]->Draw(shader);
+			textureController.SetSlot(initSlot);
+			m_meshes[i]->Draw(shader, textureController);
+			if (maxSlot < textureController.GetCount()) {
+				maxSlot = textureController.GetCount();
+			}
 		}
+		textureController.SetSlot(maxSlot);
 	}
 
 	void Model::LoadModel(std::string path) {

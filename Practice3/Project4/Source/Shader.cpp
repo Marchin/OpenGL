@@ -71,7 +71,7 @@ void Shader::SetMat4(const std::string & name, const glm::mat4 & mat) {
 	GLCall(glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, &mat[0][0]));
 }
 
-int Shader::GetUniformLocation(const std::string & name) {
+inline int Shader::GetUniformLocation(const std::string & name) {
 	if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end()) {
 		return m_uniformLocationCache[name];
 	} else {

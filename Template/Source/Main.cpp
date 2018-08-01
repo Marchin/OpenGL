@@ -60,8 +60,8 @@ int main() {
 			0.5f, -0.5f,
 			0.5f,  0.5f
 		};*/
-		/*TextureController  textureController;
-		Texture texture1("Resources/container.jpg", GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE,
+		TextureController  textureController;
+		/*Texture texture1("Resources/container.jpg", GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE,
 			GL_NEAREST, GL_NEAREST);
 
 		Shader shader("Resources/Shaders/Shader1/vShader.glsl",
@@ -111,10 +111,10 @@ int main() {
 			model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			sTexture.SetMat4("model", model);
-			soldier.Draw(sTexture);
+			soldier.Draw(sTexture, textureController);
 			//GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
 
-			//textureController.Reset();
+			textureController.Reset();
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}

@@ -24,25 +24,28 @@ namespace model {
 		}
 	}
 
-	void Mesh::Draw(Shader& shader) {
-		unsigned int diffueseNr = 1;
+	void Mesh::Draw(Shader& shader, marchinGL::TextureController& textureController) const{
+		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
+		unsigned int normalNr = 1;
+		unsigned int reflectionNr = 1;
 		for (unsigned int i = 0; i < m_texturesInfo.size(); i++) {
-			GLCall(glActiveTexture(GL_TEXTURE0 + i));
 			std::string number;
 			std::string name = m_texturesInfo[i].type;
 			if (name == "texture_diffuse") {
-				number = std::to_string(diffueseNr++);
+				number = std::to_string(diffuseNr++);
 			} else if (name == "texture_specular") {
 				number = std::to_string(specularNr++);
+			} else if (name == "texture_normal") {
+				number = std::to_string(normalNr++);
+			} else if (name == "texture_reflection") {
+				number = std::to_string(reflectionNr++);
 			}
-			shader.Bind();
-			shader.SetInt((name + number).c_str(), i);
-			GLCall(glBindTexture(GL_TEXTURE_2D, m_texturesInfo[i].texture->GetID()));
+			textureController.AddTexture(m_texturesInfo[i].texture, shader, (name + number).c_str());
 		}
 		m_va.Bind();
 		GLCall(glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0));
 		m_va.Unbind();
-		GLCall(glActiveTexture(GL_TEXTURE0));
 	}
 }
+//MANTENER CUENTA DE M_COUNT ANTES Y DESPUES

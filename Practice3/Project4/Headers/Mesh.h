@@ -6,7 +6,7 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
-#include "Texture.h"
+#include "TextureController.h"
 
 
 namespace model {
@@ -26,7 +26,7 @@ namespace model {
 	public:
 		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<TextureInfo> textures);
 		~Mesh();
-		void Draw(Shader& shader);
+		void Draw(Shader& shader, marchinGL::TextureController& textureController) const;
 		std::vector<Vertex> m_vertices;
 		std::vector<unsigned int> m_indices;
 		std::vector<TextureInfo> m_texturesInfo;

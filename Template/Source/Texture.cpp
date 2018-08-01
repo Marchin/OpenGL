@@ -5,6 +5,16 @@
 #define PNG "gnp"
 
 namespace marchinGL {
+	Texture::Texture(unsigned int width, unsigned int height) {
+		GLCall(glGenTextures(1, &m_texture));
+		GLCall(glBindTexture(GL_TEXTURE_2D, m_texture));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+	}
+
 	Texture::Texture(const char* imgPath, const GLint  TextureWrap_S, const GLint  TextureWrap_T,
 		const GLint  TextureMinFilter, const GLint  TextureMagFilter, const bool flipVertical) {
 
@@ -32,6 +42,7 @@ namespace marchinGL {
 		} else {
 			std::cout << "Failed to load texture" << std::endl;
 		}
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 		stbi_image_free(data);
 	}
 

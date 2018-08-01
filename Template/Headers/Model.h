@@ -11,7 +11,7 @@ namespace model {
 	public:
 		Model(const char* path);
 		~Model();
-		void Draw(Shader& shader);
+		void Draw(Shader& shader, marchinGL::TextureController& textureController) const;
 	private:
 		void LoadModel(std::string path);
 		void ProcessNode(aiNode* node, const aiScene* scene);
