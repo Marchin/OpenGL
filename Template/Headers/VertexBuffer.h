@@ -11,7 +11,7 @@ public:
 	unsigned int GetID() const;
 	void SetData(const void * data, unsigned int size);
 private:
-	unsigned int m_vertexBufferObject;
+	unsigned int m_vb;
 };
 
 

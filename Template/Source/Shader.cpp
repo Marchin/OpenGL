@@ -27,17 +27,18 @@ Shader::Shader(const GLchar * vertexPath, const GLchar * fragmentPath){
 
 	unsigned int vertex, fragment;
 
-	vertex = glCreateShader(GL_VERTEX_SHADER);
+
+	GLCall(vertex = glCreateShader(GL_VERTEX_SHADER));
 	GLCall(glShaderSource(vertex, 1, &vShaderCode, NULL));
 	GLCall(glCompileShader(vertex));
 	CheckCompileErrors(vertex, "VERTEX");
 
-	fragment = glCreateShader(GL_FRAGMENT_SHADER);
+	GLCall(fragment = glCreateShader(GL_FRAGMENT_SHADER));
 	GLCall(glShaderSource(fragment, 1, &fShaderCode, NULL));
 	GLCall(glCompileShader(fragment));
 	CheckCompileErrors(fragment, "FRAGMENT");
 
-	ID = glCreateProgram();
+	GLCall(ID = glCreateProgram());
 	GLCall(glAttachShader(ID, vertex));
 	GLCall(glAttachShader(ID, fragment));
 	GLCall(glLinkProgram(ID));

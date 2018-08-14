@@ -145,6 +145,8 @@
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TextureController.cpp" />
+    <ClCompile Include="Source\UniformBuffer.cpp" />
+    <ClCompile Include="Source\UniformController.cpp" />
     <ClCompile Include="Source\VertexArray.cpp" />
     <ClCompile Include="Source\VertexBuffer.cpp" />
   </ItemGroup>
@@ -162,9 +164,11 @@
     <ClInclude Include="Headers\stb_image.h" />
     <ClInclude Include="Headers\Texture.h" />
     <ClInclude Include="Headers\TextureController.h" />
+    <ClInclude Include="Headers\UniformBuffer.h" />
     <ClInclude Include="Headers\VertexArray.h" />
     <ClInclude Include="Headers\VertexBuffer.h" />
     <ClInclude Include="Headers\VertexBufferLayout.h" />
+    <ClInclude Include="Headers\UniformController.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\awesomeface.png" />
