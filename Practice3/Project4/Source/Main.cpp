@@ -4,7 +4,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-#include <map>
 #include "../Headers/Renderer.h"
 #include "../Headers/Shader.h"
 #include "../Headers/stb_image.h"
@@ -213,7 +212,6 @@ int main() {
 #pragma region DRAW
 			renderer.Clear();
 			shader.Bind();
-
 			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
 				(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 			shader.SetMat4("projection", projection);
