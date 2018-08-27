@@ -2,15 +2,24 @@
 #include "../Headers/Renderer.h"
 
 Shader::Shader(const GLchar * vertexPath, const GLchar * fragmentPath,
-	const GLchar* geometryPath){
+	const GLchar* geometryPath, const GLchar* tessControlPath,
+	const GLchar* tessEvaluationPath){
+
 	unsigned int vertex;
 	unsigned int fragment;
 	unsigned int geometry;
+	unsigned int tessellationControl;
+	unsigned int tessellationEvaluation;
 
 	vertex = SetupShader(vertexPath, GL_VERTEX_SHADER);
 	fragment = SetupShader(fragmentPath, GL_FRAGMENT_SHADER);
 	if (geometryPath != nullptr) {
 		geometry = SetupShader(geometryPath, GL_GEOMETRY_SHADER);
+	}
+	if (tessControlPath != nullptr) {
+		tessellationControl = SetupShader(tessControlPath, GL_TESS_CONTROL_SHADER);
+	}if (tessEvaluationPath != nullptr) {
+		tessellationEvaluation = SetupShader(tessEvaluationPath, GL_TESS_EVALUATION_SHADER);
 	}
 
 	GLCall(ID = glCreateProgram());
@@ -18,6 +27,11 @@ Shader::Shader(const GLchar * vertexPath, const GLchar * fragmentPath,
 	GLCall(glAttachShader(ID, fragment));
 	if (geometryPath != nullptr) {
 		GLCall(glAttachShader(ID, geometry));
+	}
+	if (tessControlPath != nullptr) {
+		GLCall(glAttachShader(ID, tessellationControl));
+	}if (tessEvaluationPath != nullptr) {
+		GLCall(glAttachShader(ID, tessellationEvaluation));
 	}
 	GLCall(glLinkProgram(ID));
 	CheckCompileErrors(ID, "PROGRAM");
